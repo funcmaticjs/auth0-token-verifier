@@ -73,6 +73,35 @@ describe('Token Verification', () => {
   })
 })
 
+describe('Token Decoding', () => {
+  let verifier = null
+  beforeEach(async () => {
+    verifier = new Auth0TokenVerifier()
+  })  
+  it ('should decode a token without validation', async () => {
+    let decoded = verifier.decode(EXPIRED_TOKEN)
+    expect(decoded).toMatchObject({
+      header: {
+        "typ": "JWT",
+        "alg": "RS256",
+      },
+      payload: {
+        "iss": "https://funcmatic.auth0.com/",
+      }
+    })
+  })
+  it ('should throw if token is malformed', async () => {
+    let error = null
+    try {
+      await verifier.decode(MALFORMED_TOKEN)
+    } catch (err) {
+      error = err
+    }
+    expect(error).toBeTruthy()
+    expect(error.message).toEqual(expect.stringMatching(/^Invalid token format/))
+  })
+})
+
 async function getAuth0Tokens() {
   let username = process.env.AUTH0_USERNAME
   let password = process.env.AUTH0_PASSWORD

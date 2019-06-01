@@ -1,6 +1,6 @@
 {
   "name": "@funcmaticjs/auth0-token-verifier",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Simple Javascript class that verifies an Auth0 token without dependencies on any specific web framework.",
   "main": "index.js",
   "scripts": {
